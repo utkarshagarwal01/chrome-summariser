@@ -5,3 +5,4 @@ local/*
 share/*
 pip-selfcheck.json
 *.pyc
+local/*
