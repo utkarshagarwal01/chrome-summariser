@@ -1,0 +1,69 @@
+{
+  "manifest_version": 2,
+  "name": "Selection Summarizer",
+  "description": "A chrome extension that allows users to get a summary of a news article or large block of text.",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+
+      "js": ["jquery-3.1.1.min.js", "content.js"]
+
+    }
+  ],
+
+  "background": {
+        "scripts": ["background.js"],
+        "persistent" :false
+    },
+
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Summarize!"
+  },
+
+  "icons": { "16": "icons/icon16.png",
+           "48": "icons/icon48.png",
+          "128": "icons/icon128.png" },
+
+  "permissions": ["activeTab", "tabs","contextMenus",
+    "http://127.0.0.1:5000/*"]
+}
+
+/*"browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Summarize!"
+            },  */ 
+  
+
+/*{
+  "manifest_version": 2,
+  "name": "Selection Summarizer",
+  "description": "A chrome extension that allows users to get a summary of a news article or large block of text.",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+
+  "background": {
+        "background": ["popup.js"],
+        "persistent": false
+    },
+
+  "icons": { "16": "icons/icon16.png",
+           "48": "icons/icon48.png",
+          "128": "icons/icon128.png" },
+
+  "permissions": ["activeTab", "tabs","contextMenus"
+    ,"http://127.0.0.1:5000/*"]
+}*/
