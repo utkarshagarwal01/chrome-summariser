@@ -34,16 +34,18 @@ def api_summarize():
 
 	compression_ratio = output_len / input_len
 
-	if 0.1*input_len > compression_ratio:
+	if  compression_ratio < 0.1 :
 		compression_ratio = 0.1
 
 	summary = ""
 	try:
 		summary = summarize(text, ratio=compression_ratio)
+		print "OUTPUTTT\n\n"
+		print summary
 	except: 
 		pass
 
-	return jsonify({'200': "OK", 'sentences': summary})
+	return jsonify({'200': "OK", 'sentences': sent_tokenize(summary)})
 
 
 @app.route('/', methods=['POST', 'GET'])
