@@ -72,7 +72,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab){
 	    var activeTab;
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			activeTab = tabs[0];
-			chrome.windows.create({url: 'popup2.html', type: 'popup',focused:true},function(window){
+			chrome.windows.create({url: 'popup2.html',focused:true},function(window){
 	    		open_window_ids.push(window.id);
 	    		displayCurrent(open_window_ids[0],activeTab,window);
 	    	});
@@ -83,7 +83,7 @@ chrome.contextMenus.onClicked.addListener(function(info, tab){
 function displayCurrent(id,activeTab,popupwindow){
 	console.log("Got id :"+id);
 	var popupTabId = popupwindow.tabs[0].id;
-	chrome.tabs.sendMessage(popupTabId, {"message": "get_selected_text"}, function(response) {
+	chrome.tabs.sendMessage(activeTab.id, {"message": "get_selected_text"}, function(response) {
 		console.log("Resp:"+response.selectedText);
 		if (response.selected_text == "") {
 			console.log("Selected text is null");
