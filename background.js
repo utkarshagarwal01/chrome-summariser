@@ -60,21 +60,34 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 	});
 });
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demo() {
+  console.log('Taking a break...');
+  await sleep(5000);
+  console.log('Two second later');
+}
+
+
+
 chrome.contextMenus.onClicked.addListener(function(info, tab){
 	for (var i = open_window_ids.length - 1; i >= 0; i--) {
 			chrome.windows.remove(open_window_ids[i],function(){});
-			open_window_ids.pop(open_window_ids[i]);
+			// open_window_ids.pop(open_window_ids[i]);
+			open_window_ids.pop();
 		}	
 			// window.document.body.innerHTML += doc;
     chrome.windows.create({url: 'popup.html', type: 'popup',focused:true},function(window){
     	open_window_ids.push(window.id);
+    	displayCurrent(open_window_ids[0]);
     });
-    displayCurrent(open_window_ids[0]);
 });
 
 function displayCurrent(id){
-
-chrome.windows.get(id,function (window){
+	console.log("Got id :"+id);
+// chrome.windows.get(id,function (window){
 	chrome.tabs.sendMessage(id, {"message": "get_selected_text"}, function(response) {
 			if (response.selected_text == "") {
 			console.log("Selected text is null");
@@ -106,6 +119,6 @@ chrome.windows.get(id,function (window){
 		}
 		});	
 
-});
+// });
 
 }
