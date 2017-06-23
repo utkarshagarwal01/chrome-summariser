@@ -79,16 +79,20 @@ chrome.contextMenus.onClicked.addListener(function(info, tab){
 			open_window_ids.pop();
 		}	
 			// window.document.body.innerHTML += doc;
+    var activeTab;
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+		activeTab = tabs[0];
+	});
+
     chrome.windows.create({url: 'popup.html', type: 'popup',focused:true},function(window){
     	open_window_ids.push(window.id);
-    	displayCurrent(open_window_ids[0]);
+    	displayCurrent(open_window_ids[0],activeTab);
     });
 });
 
-function displayCurrent(id){
+function displayCurrent(id,activeTab){
 	console.log("Got id :"+id);
-// chrome.windows.get(id,function (window){
-	chrome.tabs.sendMessage(id, {"message": "get_selected_text"}, function(response) {
+	chrome.tabs.sendMessage(activeTab.id, {"message": "get_selected_text"}, function(response) {
 			if (response.selected_text == "") {
 			console.log("Selected text is null");
 			document.body.innerHTML += "<h3 style='text-align: center'>No text selected! Select text and try again.</h3>";
@@ -119,6 +123,5 @@ function displayCurrent(id){
 		}
 		});	
 
-// });
 
 }
