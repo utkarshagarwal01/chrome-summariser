@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask import Flask, jsonify, request, Response, abort
 from nltk.tokenize import sent_tokenize
 import math
+from langdetect import detect
 
 def encode_utf8(sentence):
 	"""
@@ -25,23 +26,28 @@ def api_summarize():
 		abort(400)
 	
 	text = request.json['selected_text']
-	print text
-	text = encode_utf8(text)
+	
+	if detect(text)!="u'en'":
+		text=text.encode('utf-8')
+		text = text.replace('\xe0\xa5\xa4', '.')
+		text=text.decode('utf-8')
+	
+	else:
+		text = encode_utf8(text)
 	sentencelist = sent_tokenize(text)
 
 	input_len = len(sentencelist)
 	output_len = 2 * math.sqrt(input_len)
 
 	compression_ratio = output_len / input_len
-
-	if  compression_ratio < 0.1 :
-		compression_ratio = 0.1
-
+	
+	print "Compression ratio ", compression_ratio 
 	summary = ""
 	try:
-		summary = summarize(text, ratio=compression_ratio)
+		#summary = summarize(text, ratio=compression_ratio)
+		summary = summarize(text)
 		print "OUTPUTTT\n\n"
-		print summary
+		print type(summary)
 	except: 
 		pass
 

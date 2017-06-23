@@ -36,13 +36,14 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		}
 		else {
 			var apiResponse = getSummary(response);
+			console.log(apiResponse);
 			var summary_final = apiResponse.sentences;
 			if (summary_final.length == 0) {
 				document.getElementById("header").innerHTML += "<h3 class='heading'>Not enough text selected to generate summary. Select larger block of text and try again.</h3>";
-				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>By Zippybots <a href='http://zippybots.com' target='_blank'><span id='link'>(zippybots.com)</span></a></div>";
+				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>Powered by <a href='http://zippybots.com' target='_blank'><span id='link'>Zippybots</span></a></div>";
 			}
 			else{
-				document.getElementById("header").innerHTML += "<h1 class='heading'>Summary</h1>";
+				document.getElementById("header").innerHTML += "<h1 class='heading'>The Gist is.....</h1>";
 				var para = "";
 				for (var i = 0;i<summary_final.length;i++)
 				{
@@ -54,7 +55,7 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 					}
 				}
 				if (para) document.getElementById("summary").innerHTML += "<p class='point'>"+para+"</p>";
-				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>By Zippybots <a href='http://zippybots.com' target='_blank'><span id='link'>(zippybots.com)</span></a></div>";
+				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>Powered by <a href='http://zippybots.com' target='_blank'><span id='link'>Zippybots</span></a></div>";
 			}
 		}
 	});
@@ -69,7 +70,7 @@ async function demo() {
   await sleep(5000);
   console.log('Two second later');
 }
-
+		
 
 
 chrome.contextMenus.onClicked.addListener(function(info, tab){
@@ -99,7 +100,7 @@ function displayCurrent(id){
 			console.log(summary_final);
 			if (summary_final.length == 0) {
 				document.getElementById("header").innerHTML += "<h3 class='heading'>Not enough text selected to generate summary. Select larger block of text and try again.</h3>";
-				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>By Zippybots <a href='http://zippybots.com' target='_blank'><span id='link'>(zippybots.com)</span></a></div>";
+				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>Powered by <a href='http://zippybots.com' target='_blank'><span id='link'>Zippybots</span></a></div>";
 			}
 			else{
 				document.getElementById("header").innerHTML += "<h1 class='heading'>Summary</h1>";
@@ -114,7 +115,7 @@ function displayCurrent(id){
 					}
 				}
 				if (para) document.getElementById("summary").innerHTML += "<p class='point'>"+para+"</p>";
-				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>By Zippybots <a href='http://zippybots.com' target='_blank'><span id='link'>(zippybots.com)</span></a></div>";
+				document.getElementById("footer").innerHTML += "<div style='padding:15px;'>Powered by <a href='http://zippybots.com' target='_blank'><span id='link'>Zippybots</span></a></div>";
 			}
 		}
 		});	
