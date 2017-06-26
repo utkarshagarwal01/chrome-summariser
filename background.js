@@ -66,26 +66,28 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 chrome.contextMenus.onClicked.addListener(function(info, tab){
 	if (info.menuItemId == "context_selection") {
 		for (var i = open_window_ids.length - 1; i >= 0; i--) {
-			chrome.windows.remove(open_window_ids[i],function(){});
-			open_window_ids.pop();
+		 	chrome.windows.remove(open_window_ids[i],function(){});
+		 	open_window_ids.pop();
 		}	
-			// window.document.body.innerHTML += doc;
+		 	// window.document.body.innerHTML += doc;
 	    var activeTab;
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			activeTab = tabs[0];
-			chrome.windows.create({url: 'popup2.html',focused:true},function(window){
-	    		open_window_ids.push(window.id);
-	    		displayCurrent(open_window_ids[0],activeTab,window);
+			chrome.windows.create({url: 'popup2.html',focused:true,type:'popup'},function(win){
+	    		open_window_ids.push(win.id);
+	    		displayCurrent(open_window_ids[0],activeTab.id,win);
 	    	});
 		});
 	}
 });
 
-function displayCurrent(id,activeTab,popupwindow){
-	console.log("Got id :"+id);
+function displayCurrent(id,activeTabId,popupwindow){
+	console.log("Got selection tab id :"+activeTabId);
 	var popupTabId = popupwindow.tabs[0].id;
-	chrome.tabs.sendMessage(activeTab.id, {"message": "get_selected_text"}, function(response) {
-		console.log("Resp:"+response.selectedText);
+	console.log("Got popup tab id :"+popupTabId);
+	
+	chrome.tabs.sendMessage(activeTabId, {"message": "get_selected_text"}, function(response) {
+		console.log("Resp:"+response.selected_text);
 		if (response.selected_text == "") {
 			console.log("Selected text is null");
 			chrome.tabs.sendMessage(popupTabId,{"message":"no_text_selected"},function (response){});
@@ -94,9 +96,11 @@ function displayCurrent(id,activeTab,popupwindow){
 			var apiResponse = getSummary(response);
 			var summary_final = apiResponse.sentences;
 			if (summary_final.length == 0) {
+				console.log("Summary length 0");
 				chrome.tabs.sendMessage(popupTabId,{"message":"not_enough_text"},function (response){});
 			}
 			else {
+				console.log("Summary there");
 				chrome.tabs.sendMessage(popupTabId,{"message":"summary","data":summary_final},function (response){});	
 			}
 		}	

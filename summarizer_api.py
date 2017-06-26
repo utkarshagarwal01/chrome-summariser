@@ -5,6 +5,7 @@ from flask import Flask, jsonify, request, Response, abort
 from nltk.tokenize import sent_tokenize
 import math
 from langdetect import detect
+from time import sleep
 
 def encode_utf8(sentence):
 	"""
@@ -24,6 +25,7 @@ CORS(app, supports_credentials=True)
 def api_summarize():
 	if not request.json:
 		abort(400)
+
 	
 	text = request.json['selected_text']
 	
